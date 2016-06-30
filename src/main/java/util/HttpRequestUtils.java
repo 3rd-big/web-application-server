@@ -6,8 +6,34 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import pojo.UrlData;
 
 public class HttpRequestUtils {
+	public static final String HTTP  = "HTTP/1.1";
+
+	public static String getContentType(String resource){
+		String[] arr = resource.split("\\.");
+		return "text/" +arr[arr.length-1]+";charset=utf-8\r\n";
+	}
+
+	public static boolean isResource(String urlPath){
+		return urlPath.contains("\\?");
+	}
+
+	public static UrlData getUrlData(String urlPath){
+		String[] arr = urlPath.split("\\?");
+		String[] pathes = arr[0].split("\\/");
+		String model = "";
+		String method = pathes[1];
+
+		if(pathes.length > 2){
+			model = pathes[1];
+			method = pathes[2];
+		}
+
+		return new UrlData(model, method, parseQueryString(arr[arr.length-1]));
+	}
+
 	/**
 	 * @param queryString은 URL에서 ? 이후에 전달되는 field1=value1&field2=value2 형식임
 	 * @return
