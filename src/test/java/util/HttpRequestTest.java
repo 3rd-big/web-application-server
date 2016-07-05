@@ -24,5 +24,12 @@ public class HttpRequestTest {
         assertEquals("/user/create", request.getPath());
         assertEquals("keep-alive", request.getHeader("Connection"));
         assertEquals("javajigi", request.getParameter("userId"));
+        assertEquals("password", request.getParameter("password"));
+    }
+
+    @Test
+    public void response_GET() throws Exception {
+        InputStream in = new FileInputStream(new File(testDir + "Http_GET.txt"));
+        HttpRequest request = new HttpRequest(in);
     }
 }

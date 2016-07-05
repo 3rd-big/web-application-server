@@ -19,7 +19,6 @@ import java.util.Map;
 public class HttpRequest {
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
-    private int contentLength;
     private boolean logined;
     private String method;
     private String path;
@@ -27,14 +26,6 @@ public class HttpRequest {
     private Map<String, String> headers = new LinkedHashMap<>();
     private Map<String, String> parameters = new LinkedHashMap<>();
     private String body;
-
-    public int getContentLength() {
-        return contentLength;
-    }
-
-    public void setContentLength(int contentLength) {
-        this.contentLength = contentLength;
-    }
 
     public boolean isLogined() {
         return logined;
@@ -111,7 +102,7 @@ public class HttpRequest {
             log.debug("request line : {}", line);
             String[] tokens = line.split(" ");
             this.method = tokens[0];
-            contentLength = 0;
+            int contentLength = 0;
             logined = false;
 
             while (!line.equals("")) {
