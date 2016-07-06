@@ -47,18 +47,18 @@ public class HttpResponse {
         }
     }
 
+    private void set302Header() throws IOException {
+        dos.writeBytes("HTTP/1.1 302 Redirect \r\n");
+        dos.writeBytes("Location: /index.html \r\n");
+        dos.writeBytes("\r\n");
+    }
+
     public void get302Header() {
         try {
             set302Header();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-    }
-
-    private void set302Header() throws IOException {
-        dos.writeBytes("HTTP/1.1 302 Redirect \r\n");
-        dos.writeBytes("Location: /index.html \r\n");
-        dos.writeBytes("\r\n");
     }
 
     public void get302LoginSuccessHeader() {

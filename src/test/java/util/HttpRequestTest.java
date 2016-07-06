@@ -1,11 +1,16 @@
 package util;
 
+import annotation.RequestMapping;
 import org.junit.Test;
 import webserver.HttpRequest;
+import webserver.RequestHandler;
+import webserver.WebServer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,6 +30,12 @@ public class HttpRequestTest {
         assertEquals("keep-alive", request.getHeader("Connection"));
         assertEquals("javajigi", request.getParameter("userId"));
         assertEquals("password", request.getParameter("password"));
+    }
+
+    @Test
+    public void test_RequestFactory() throws Exception {
+        WebServer.createMethodFactory();
+        assertEquals("create", WebServer.methodFactory.get("/user/create").getName());
     }
 
     @Test
