@@ -34,7 +34,7 @@ public class Controller {
     @RequestMapping("/user/login")
     public void login(HttpRequest request, HttpResponse response){
         User user = WebServer.service.getUser(request);
-        if (user != null && user.login(request.getParameter("password"))) {
+        if (user != null && user.login(request.getBodyValue("password"))) {
             response.get302LoginSuccessHeader();
         } else {
             try {

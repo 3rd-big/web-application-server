@@ -4,12 +4,9 @@ import db.DataBase;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.HttpRequestUtils;
 import webserver.HttpRequest;
-import webserver.RequestHandler;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Created by jojoldu@gmail.com on 2016-07-06.
@@ -18,7 +15,7 @@ public class Service {
     private final Logger log = LoggerFactory.getLogger(Service.class);
 
     public User getUser(HttpRequest request) {
-        return DataBase.findUserById(request.getParameter("userId"));
+        return DataBase.findUserById(request.getBodyValue("userId"));
     }
 
     public byte[] getUserList() {
@@ -38,9 +35,7 @@ public class Service {
     }
 
     public void create(HttpRequest request) {
-        String body = request.getBody();
-        Map<String, String> params = HttpRequestUtils.parseQueryString(body);
-        User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
+        User user = new User(request.getBodyValue("userId"), request.getBodyValue("password"), request.getBodyValue("name"), request.getBodyValue("email"));
         log.debug("user : {}", user);
         DataBase.addUser(user);
     }

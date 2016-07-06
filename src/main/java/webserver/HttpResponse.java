@@ -63,8 +63,8 @@ public class HttpResponse {
 
     public void get302LoginSuccessHeader() {
         try {
-            dos.writeBytes("Set-Cookie: logined=true \r\n");
             set302Header();
+            dos.writeBytes("Set-Cookie: logined=true \r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
         }

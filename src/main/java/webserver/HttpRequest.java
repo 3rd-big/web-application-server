@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
 import util.IOUtils;
+import util.StringUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -25,7 +26,7 @@ public class HttpRequest {
     private String url;
     private Map<String, String> headers = new LinkedHashMap<>();
     private Map<String, String> parameters = new LinkedHashMap<>();
-    private String body;
+    private Map<String, String> body;
 
     public boolean isLogined() {
         return logined;
@@ -83,12 +84,16 @@ public class HttpRequest {
         this.parameters = parameters;
     }
 
-    public String getBody() {
+    public Map<String, String> getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(Map<String, String> body) {
         this.body = body;
+    }
+
+    public String getBodyValue(String name) {
+        return body.get(name);
     }
 
     public HttpRequest(InputStream in) {
@@ -105,9 +110,9 @@ public class HttpRequest {
             int contentLength = 0;
             logined = false;
 
-            while (!line.equals("")) {
+            while (!StringUtils.isEmpty(line) ) {
                 line = br.readLine();
-                if(line == null){
+                if(StringUtils.isEmpty(line)){
                     break;
                 }
                 log.debug("header : {}", line);
@@ -125,11 +130,13 @@ public class HttpRequest {
             this.url = getDefaultUrl(tokens);
             String[] urlParse = url.split("\\?");
             this.path = urlParse[0];
-            this.parameters = HttpRequestUtils.parseQueryString(urlParse[1]);
-            this.body = IOUtils.readData(br, contentLength);
+            if(urlParse.length > 1){
+                this.parameters = HttpRequestUtils.parseQueryString(urlParse[1]);
+            }
+            this.body = HttpRequestUtils.parseQueryString(IOUtils.readData(br, contentLength));
 
         }catch (Exception e){
-            log.error("HttpRequest error");
+            log.error("HttpRequest error: ", e);
         }
     }
 

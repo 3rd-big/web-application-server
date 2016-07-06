@@ -28,9 +28,9 @@ public class RequestHandler extends Thread {
             String url = request.getUrl();
             Method invokeMethod = WebServer.methodFactory.get(request.getPath());
             if(invokeMethod == null){
-                WebServer.controller.index(request, response);
+                response.getResource(url);
             }else{
-                invokeMethod.invoke(WebServer.controller);
+                invokeMethod.invoke(WebServer.controller, request, response);
                 response.getResource(url);
             }
         } catch (Exception e) {
