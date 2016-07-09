@@ -26,6 +26,10 @@ public class HttpResponse {
 	public void addHeader(String key, String value) {
 		headers.put(key, value);
 	}
+
+	public String getHeader(String key){
+		return headers.get(key);
+	}
 	
 	public void forward(String url) {
 		try {
