@@ -1,11 +1,13 @@
 package http;
 
+import db.HttpSessions;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertThat;
 
@@ -23,7 +25,7 @@ public class HttpSessionTest {
 
     @Test
     public void test_uuid() throws Exception {
-        System.out.println(httpSession.generateId());
+        System.out.println(httpSession.getId());
     }
 
     @Test
@@ -43,4 +45,11 @@ public class HttpSessionTest {
         httpSession.addCookieHeaderValue(request, response);
         System.out.println(response.getHeader("Set-Cookie"));
     }
+
+    @Test
+    public void test_sessions() throws Exception {
+        HttpSessions.put(httpSession);
+        Stream.of(HttpSessions.getAll()).forEach(System.out::println);
+    }
+
 }

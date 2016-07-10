@@ -14,21 +14,17 @@ public class HttpSession {
     private Map<String, Object> attributes = new HashMap<>();
     public static final String NAME="JSESSIONID";
 
+    public HttpSession() {
+        this.id = UUID.randomUUID().toString();
+    }
+
     public void addCookieHeaderValue(HttpRequest request, HttpResponse response){
         String cookie = StringUtils.isNotEmpty(request.getHeader("Set-Cookie"))? request.getHeader("Set-Cookie"): "";
-        response.addHeader("Set-Cookie", cookie+NAME+"="+this.generateId()+";");
+        response.addHeader("Set-Cookie", cookie+NAME+"="+this.id+";");
     }
-
 
     public String getId(){
-        if(StringUtils.isNotEmpty(this.id)){
-            return this.id;
-        }
         return this.id;
-    }
-
-    public String generateId(){
-        return UUID.randomUUID().toString();
     }
 
     public Map<String, Object> getAttributes() {
