@@ -21,6 +21,11 @@ public class HttpRequestUtilsTest {
 		parameters = HttpRequestUtils.parseQueryString(queryString);
 		assertThat(parameters.get("userId"), is("javajigi"));
 		assertThat(parameters.get("password"), is("password2"));
+
+		queryString = "userId=admin&password=admin100%21%21&name=%EA%B4%80%EB%A6%AC%EC%9E%90&email=admin%40gmail.com";
+		parameters = HttpRequestUtils.parseQueryString(queryString);
+		assertThat(parameters.get("userId"), is("admin"));
+		assertThat(parameters.get("password"), is("admin100!!"));
 	}
 	
 	@Test
